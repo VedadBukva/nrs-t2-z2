@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,6 +9,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GradController {
@@ -16,6 +22,8 @@ public class GradController {
     public ChoiceBox<Drzava> choiceDrzava;
     public ObservableList<Drzava> listDrzave;
     private Grad grad;
+    public TextField fieldPostanskiBroj;
+
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
         this.grad = grad;
@@ -77,12 +85,41 @@ public class GradController {
         }
 
         if (!sveOk) return;
-
-        if (grad == null) grad = new Grad();
-        grad.setNaziv(fieldNaziv.getText());
-        grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText()));
-        grad.setDrzava(choiceDrzava.getValue());
-        Stage stage = (Stage) fieldNaziv.getScene().getWindow();
-        stage.close();
+        else {
+            try {
+                URL lokacija = new URL("http://c9.etf.unsa.ba/proba/postanskiBroj.php?postanskiBroj=" + fieldPostanskiBroj.getText());
+                fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
+                fieldPostanskiBroj.getStyleClass().removeAll("poljeNijeIspravno");
+                new Thread(() -> {
+                    String json = "", line = null;
+                    BufferedReader ulaz = null;
+                    try {
+                        ulaz = new BufferedReader(new InputStreamReader(lokacija.openStream(), StandardCharsets.UTF_8));
+                        while ((line = ulaz.readLine()) != null)
+                            json = json + line;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (json.equals("NOT OK")) {
+                        Platform.runLater(() -> {
+                            fieldPostanskiBroj.getStyleClass().add("poljeNijeIspravno");
+                        });
+                    } else {
+                        Platform.runLater(() -> {
+                            fieldPostanskiBroj.getStyleClass().add("poljeIspravno");
+                            if (grad == null) grad = new Grad();
+                            grad.setNaziv(fieldNaziv.getText());
+                            grad.setBrojStanovnika(Integer.parseInt(fieldBrojStanovnika.getText()));
+                            grad.setDrzava(choiceDrzava.getValue());
+                            grad.setPostanskiBroj(Integer.parseInt(fieldPostanskiBroj.getText()));
+                            Stage stage = (Stage) fieldNaziv.getScene().getWindow();
+                            stage.close();
+                        });
+                    }
+                }).start();
+            } catch (Exception e) {
+                //
+            }
+        }
     }
 }

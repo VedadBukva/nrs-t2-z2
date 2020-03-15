@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `grad` (
 	`naziv`	TEXT,
 	`broj_stanovnika`	INTEGER,
 	`drzava`	INTEGER,
+	`postanski_broj`	INTEGER,
 	FOREIGN KEY(`drzava`) REFERENCES `drzava`,
 	PRIMARY KEY(`id`)
 );
