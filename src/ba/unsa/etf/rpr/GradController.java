@@ -5,7 +5,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -16,6 +21,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+
 public class GradController {
     public TextField fieldNaziv;
     public TextField fieldBrojStanovnika;
@@ -23,11 +30,20 @@ public class GradController {
     public ObservableList<Drzava> listDrzave;
     private Grad grad;
     public TextField fieldPostanskiBroj;
+    public ListView<Znamenitost> listViewZnamenitosti;
+    public Button btnDodajZnamenitost;
+    private GeografijaDAO dao;
+
+
+    public ObservableList<Znamenitost> listaZnamenitosti;
 
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
+        dao = GeografijaDAO.getInstance();
         this.grad = grad;
         listDrzave = FXCollections.observableArrayList(drzave);
+        if (grad == null) listaZnamenitosti = FXCollections.observableArrayList();
+        else listaZnamenitosti = FXCollections.observableArrayList( grad.getZnamenitosti() );
     }
 
     @FXML
@@ -43,6 +59,38 @@ public class GradController {
                     choiceDrzava.getSelectionModel().select(drzava);
         } else {
             choiceDrzava.getSelectionModel().selectFirst();
+            listViewZnamenitosti.setVisible(false);
+            btnDodajZnamenitost.setVisible(false);
+        }
+        listViewZnamenitosti.setItems(listaZnamenitosti);
+    }
+
+    public void dodajZnamenitost(ActionEvent actionEvent) {
+        if (grad == null) return;
+        Stage stage = new Stage();
+        Parent root = null;
+        try {
+            // todo: odraditi dodavanje u bazu
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/znamenitosti.fxml"));
+            ZnamenitostController z = new ZnamenitostController(grad);
+            loader.setController(z);
+            root = loader.load();
+            stage.setTitle("Znamenitosti");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(true);
+            stage.show();
+
+            stage.setOnHiding( event -> {
+                Znamenitost zn = z.getZnamenitost();
+                if (zn != null) {
+                    dao.dodajZnamenitost(zn);
+                    grad.getZnamenitosti().add(zn);
+                    listaZnamenitosti.setAll(grad.getZnamenitosti());
+                    listViewZnamenitosti.refresh();
+                }
+            } );
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -91,7 +139,8 @@ public class GradController {
                 fieldPostanskiBroj.getStyleClass().removeAll("poljeIspravno");
                 fieldPostanskiBroj.getStyleClass().removeAll("poljeNijeIspravno");
                 new Thread(() -> {
-                    String json = "", line = null;
+                    String json = "";
+                    String line = null;
                     BufferedReader ulaz = null;
                     try {
                         ulaz = new BufferedReader(new InputStreamReader(lokacija.openStream(), StandardCharsets.UTF_8));
