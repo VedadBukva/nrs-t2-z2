@@ -2,6 +2,9 @@ package ba.unsa.etf.rpr;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -9,7 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.Optional;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class ZnamenitostController {
     public TextField fldNaziv;
@@ -20,6 +27,7 @@ public class ZnamenitostController {
 
     public ZnamenitostController(Grad grad) {
         this.grad = grad;
+        this.slika = "";
     }
 
     public Znamenitost getZnamenitost() {
@@ -36,8 +44,31 @@ public class ZnamenitostController {
     }
 
     public void odaberiSliku(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pretraga.fxml"));
+            PretragaController pretragaController = new PretragaController();
+            loader.setController(pretragaController);
+            root = loader.load();
+            stage.setTitle("Traži");
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setResizable(false);
+            stage.show();
+
+            stage.setOnHiding(event -> {
+                slika = pretragaController.getSlika();
+                try {
+                    imageView.setImage(new Image(new FileInputStream(slika)));
+                } catch (FileNotFoundException e) {
+                    //..
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         boolean sveOk = true;
-        if (fldNaziv.getText().trim().isEmpty()) {
+       /* if (fldNaziv.getText().trim().isEmpty()) {
             fldNaziv.getStyleClass().removeAll("poljeIspravno");
             fldNaziv.getStyleClass().add("poljeNijeIspravno");
             sveOk = false;
@@ -62,7 +93,7 @@ public class ZnamenitostController {
             } else {
                 return null;
             }
-        }));
+        }));*/
 
     }
 }
