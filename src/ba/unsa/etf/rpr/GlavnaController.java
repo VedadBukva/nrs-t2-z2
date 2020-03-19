@@ -26,6 +26,11 @@ public class GlavnaController {
     public TableColumn<Grad,String> colGradDrzava;
     private GeografijaDAO dao;
     private ObservableList<Grad> listGradovi;
+    public Button btnDodajGrad;
+    public Button btnDodajDrzavu;
+    public Button btnIzmijeniGrad;
+    public Button btnObrisiGrad;
+    public Button btnJezik;
 
     private ResourceBundle bundle;
     private Locale locale;
@@ -52,12 +57,9 @@ public class GlavnaController {
         dialog.setTitle("Internacionalizacija");
         dialog.setHeaderText("Izaberite jezik koji će se prikazivati u aplikaciji");
         dialog.setContentText("Izabrani jezik:");
-
-        // Traditional way to get the response value.
+        
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(s -> {
-            System.out.println(s);
-
             if(s.equals("Bosanski")) ucitajJezik("bs");
             else if(s.equals("Engleski")) ucitajJezik("en_US");
         });
@@ -69,6 +71,12 @@ public class GlavnaController {
         colGradNaziv.setText(bundle.getString("naziv"));
         colGradStanovnika.setText(bundle.getString("stanovnika"));
         colGradDrzava.setText(bundle.getString("drzava"));
+        btnDodajDrzavu.setText(bundle.getString("dodajdrzavu"));
+        btnDodajGrad.setText(bundle.getString("dodajgrad"));
+        btnIzmijeniGrad.setText(bundle.getString("izmijenigrad"));
+        btnObrisiGrad.setText(bundle.getString("obrisigrad"));
+        btnJezik.setText(bundle.getString("jezik"));
+
     }
 
     public void actionDodajGrad(ActionEvent actionEvent) {

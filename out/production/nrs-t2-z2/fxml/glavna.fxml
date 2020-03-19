@@ -13,7 +13,7 @@
         <columns>
           <TableColumn fx:id="colGradId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="colGradNaziv" prefWidth="100.0" text="%naziv" />
-          <TableColumn fx:id="colGradStanovnika" prefWidth="90.0" text="%stanovnika" />
+          <TableColumn fx:id="colGradStanovnika" prefWidth="90.0" text="%brojstanovnika" />
           <TableColumn fx:id="colGradDrzava" prefWidth="185.0" text="%drzava" />
         </columns>
       </TableView>
