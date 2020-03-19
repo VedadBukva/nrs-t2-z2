@@ -8,21 +8,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class GlavnaController {
-
     public TableView<Grad> tableViewGradovi;
     public TableColumn colGradId;
     public TableColumn colGradNaziv;
@@ -30,6 +26,9 @@ public class GlavnaController {
     public TableColumn<Grad,String> colGradDrzava;
     private GeografijaDAO dao;
     private ObservableList<Grad> listGradovi;
+
+    private ResourceBundle bundle;
+    private Locale locale;
 
     public GlavnaController() {
         dao = GeografijaDAO.getInstance();
@@ -43,6 +42,33 @@ public class GlavnaController {
         colGradNaziv.setCellValueFactory(new PropertyValueFactory("naziv"));
         colGradStanovnika.setCellValueFactory(new PropertyValueFactory("brojStanovnika"));
         colGradDrzava.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDrzava().getNaziv()));
+    }
+
+    public void izaberiJezik(ActionEvent actionEvent) {
+        List<String> jezici = new ArrayList<>();
+        jezici.add("Bosanski");
+        jezici.add("Engleski");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Engleski", jezici);
+        dialog.setTitle("Internacionalizacija");
+        dialog.setHeaderText("Izaberite jezik koji će se prikazivati u aplikaciji");
+        dialog.setContentText("Izabrani jezik:");
+
+        // Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(s -> {
+            System.out.println(s);
+
+            if(s.equals("Bosanski")) ucitajJezik("bs");
+            else if(s.equals("Engleski")) ucitajJezik("en_US");
+        });
+    }
+
+    private void ucitajJezik(String jezik) {
+        locale = new Locale(jezik);
+        bundle = ResourceBundle.getBundle("Translation", locale);
+        colGradNaziv.setText(bundle.getString("naziv"));
+        colGradStanovnika.setText(bundle.getString("stanovnika"));
+        colGradDrzava.setText(bundle.getString("drzava"));
     }
 
     public void actionDodajGrad(ActionEvent actionEvent) {
