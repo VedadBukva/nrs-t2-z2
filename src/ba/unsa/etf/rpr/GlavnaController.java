@@ -31,8 +31,10 @@ public class GlavnaController {
     public Button btnIzmijeniGrad;
     public Button btnObrisiGrad;
     public Button btnJezik;
+    public List<String> jezici;
+    public ChoiceDialog<String> dialog;
 
-    private ResourceBundle bundle;
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
     private Locale locale;
 
     public GlavnaController() {
@@ -50,19 +52,19 @@ public class GlavnaController {
     }
 
     public void izaberiJezik(ActionEvent actionEvent) {
-        List<String> jezici = new ArrayList<>();
+        jezici = new ArrayList<>();
         jezici.add("Bosanski");
         jezici.add("Engleski");
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("Engleski", jezici);
-        dialog.setTitle("Internacionalizacija");
-        dialog.setHeaderText("Izaberite jezik koji će se prikazivati u aplikaciji");
-        dialog.setContentText("Izabrani jezik:");
-        
+        dialog = new ChoiceDialog<>("Engleski", jezici);
+        dialog.setTitle(bundle.getString("internacionalizacija"));
+        dialog.setHeaderText(bundle.getString("dialogopis"));
+        dialog.setContentText(bundle.getString("izabrani"));
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(s -> {
             if(s.equals("Bosanski")) ucitajJezik("bs");
             else if(s.equals("Engleski")) ucitajJezik("en_US");
         });
+
     }
 
     private void ucitajJezik(String jezik) {
@@ -76,6 +78,9 @@ public class GlavnaController {
         btnIzmijeniGrad.setText(bundle.getString("izmijenigrad"));
         btnObrisiGrad.setText(bundle.getString("obrisigrad"));
         btnJezik.setText(bundle.getString("jezik"));
+        dialog.setTitle(bundle.getString("internacionalizacija"));
+        dialog.setHeaderText(bundle.getString("dialogopis"));
+        dialog.setContentText(bundle.getString("izabrani"));
 
     }
 
