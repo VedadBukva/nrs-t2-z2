@@ -39,10 +39,10 @@ public class GradController {
     public Label lblPostanski;
     public Label lblZnamenitost;
 
-
-    public ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-
     public ObservableList<Znamenitost> listaZnamenitosti;
+
+    private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+    private Locale locale = Locale.getDefault();
 
 
     public GradController(Grad grad, ArrayList<Drzava> drzave) {
@@ -77,12 +77,12 @@ public class GradController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            // todo: odraditi dodavanje u bazu
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/znamenitosti.fxml"));
+            Locale.setDefault(new Locale(locale.getLanguage(),locale.getCountry()));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/znamenitosti.fxml"),bundle);
             ZnamenitostController z = new ZnamenitostController(grad);
             loader.setController(z);
             root = loader.load();
-            stage.setTitle("Znamenitosti");
+            stage.setTitle(bundle.getString("znamenitosti"));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();

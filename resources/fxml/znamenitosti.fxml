@@ -24,7 +24,7 @@
     <RowConstraints maxHeight="167.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Naziv:">
+      <Label text="%naziv1">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -37,13 +37,13 @@
             <Insets left="15.0" right="15.0" />
          </GridPane.margin>
       </TextField>
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Spasi izmjene" onAction="#spasiIzmjene" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%spasiizmjene" onAction="#spasiIzmjene" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="15.0" right="15.0" />
          </GridPane.margin>
       </Button>
       <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Odaberi sliku" onAction="#odaberiSliku" GridPane.rowIndex="2">
+      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%odaberisliku" onAction="#odaberiSliku" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="15.0" right="15.0" />
          </GridPane.margin>

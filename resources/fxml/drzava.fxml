@@ -26,14 +26,14 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Label text="Naziv:" />
+      <Label text="%naziv1" />
       <TextField fx:id="fieldNaziv" GridPane.columnIndex="1" />
-      <Label text="Glavni grad:" GridPane.rowIndex="1" />
+      <Label text="%glavnigrad" GridPane.rowIndex="1" />
       <ChoiceBox fx:id="choiceGrad" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
         <buttons>
-          <Button fx:id="btnOk" onAction="#clickOk" mnemonicParsing="false" text="Ok" />
-          <Button fx:id="btnCancel" onAction="#clickCancel" mnemonicParsing="false" text="Cancel" />
+          <Button fx:id="btnOk" onAction="#clickOk" mnemonicParsing="false" text="%potvrdi" />
+          <Button fx:id="btnCancel" onAction="#clickCancel" mnemonicParsing="false" text="%odustani" />
         </buttons>
       </ButtonBar>
    </children>
