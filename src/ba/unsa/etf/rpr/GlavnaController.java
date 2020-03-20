@@ -35,7 +35,7 @@ public class GlavnaController {
     public ChoiceDialog<String> dialog;
 
     private ResourceBundle bundle = ResourceBundle.getBundle("Translation");
-    private Locale locale;
+    private Locale locale = Locale.getDefault();
 
     public GlavnaController() {
         dao = GeografijaDAO.getInstance();
@@ -71,12 +71,12 @@ public class GlavnaController {
         locale = new Locale(jezik);
         bundle = ResourceBundle.getBundle("Translation", locale);
         colGradNaziv.setText(bundle.getString("naziv"));
-        colGradStanovnika.setText(bundle.getString("stanovnika"));
+        colGradStanovnika.setText(bundle.getString("brojstanovnika"));
         colGradDrzava.setText(bundle.getString("drzava"));
         btnDodajDrzavu.setText(bundle.getString("dodajdrzavu"));
         btnDodajGrad.setText(bundle.getString("dodajgrad"));
-        btnIzmijeniGrad.setText(bundle.getString("izmijenigrad"));
-        btnObrisiGrad.setText(bundle.getString("obrisigrad"));
+        btnIzmijeniGrad.setText(bundle.getString("izmjeni"));
+        btnObrisiGrad.setText(bundle.getString("izbrisi"));
         btnJezik.setText(bundle.getString("jezik"));
         dialog.setTitle(bundle.getString("internacionalizacija"));
         dialog.setHeaderText(bundle.getString("dialogopis"));
@@ -88,11 +88,12 @@ public class GlavnaController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/grad.fxml"));
+            Locale.setDefault(new Locale(locale.getLanguage(),locale.getCountry()));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/grad.fxml"), bundle);
             GradController gradController = new GradController(null, dao.drzave());
             loader.setController(gradController);
             root = loader.load();
-            stage.setTitle("Grad");
+            stage.setTitle(bundle.getString("grad"));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();
@@ -114,11 +115,12 @@ public class GlavnaController {
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/drzava.fxml"));
+            Locale.setDefault(new Locale(locale.getLanguage(),locale.getCountry()));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/drzava.fxml"), bundle);
             DrzavaController drzavaController = new DrzavaController(null, dao.gradovi());
             loader.setController(drzavaController);
             root = loader.load();
-            stage.setTitle("Država");
+            stage.setTitle(bundle.getString("drzava"));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();
@@ -138,15 +140,15 @@ public class GlavnaController {
     public void actionIzmijeniGrad(ActionEvent actionEvent) {
         Grad grad = tableViewGradovi.getSelectionModel().getSelectedItem();
         if (grad == null) return;
-
         Stage stage = new Stage();
         Parent root = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/grad.fxml"));
+            Locale.setDefault(new Locale(locale.getLanguage(),locale.getCountry()));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/grad.fxml"), bundle);
             GradController gradController = new GradController(grad, dao.drzave());
             loader.setController(gradController);
             root = loader.load();
-            stage.setTitle("Grad");
+            stage.setTitle(bundle.getString("grad"));
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(true);
             stage.show();
@@ -168,9 +170,9 @@ public class GlavnaController {
         if (grad == null) return;
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Potvrda brisanja");
-        alert.setHeaderText("Brisanje grada "+grad.getNaziv());
-        alert.setContentText("Da li ste sigurni da želite obrisati grad " +grad.getNaziv()+"?");
+        alert.setTitle(bundle.getString("potvrdibrisanje"));
+        alert.setHeaderText(bundle.getString("brisanjegrada")+" "+grad.getNaziv());
+        alert.setContentText(bundle.getString("konacnapotvrdabrisanja") +grad.getNaziv()+"?");
         alert.setResizable(true);
 
         Optional<ButtonType> result = alert.showAndWait();

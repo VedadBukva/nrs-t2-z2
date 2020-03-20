@@ -8,18 +8,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.*;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -34,6 +33,14 @@ public class GradController {
     public Button btnDodajZnamenitost;
     private GeografijaDAO dao;
 
+    public Label lblNaziv;
+    public Label lblBrojStanovnika;
+    public Label lblDrzava;
+    public Label lblPostanski;
+    public Label lblZnamenitost;
+
+
+    public ResourceBundle bundle = ResourceBundle.getBundle("Translation");
 
     public ObservableList<Znamenitost> listaZnamenitosti;
 

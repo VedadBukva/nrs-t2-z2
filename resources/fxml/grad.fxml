@@ -30,22 +30,22 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Label text="Naziv:" />
+      <Label fx:id="lblNaziv" text="%nazivgrada" />
       <TextField fx:id="fieldNaziv" GridPane.columnIndex="1" />
-      <Label text="Broj stanovnika:" GridPane.rowIndex="1" />
+      <Label fx:id="lblBrojStanovnika" text="%brojstanovnika" GridPane.rowIndex="1" />
       <TextField fx:id="fieldBrojStanovnika" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label text="Država:" GridPane.rowIndex="2" />
+      <Label fx:id="lblDrzava" text="%drzava" GridPane.rowIndex="2" />
       <ChoiceBox fx:id="choiceDrzava" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Label text="Poštanski broj:" GridPane.rowIndex="3" />
+      <Label fx:id="lblPostanski" text="%postanski" GridPane.rowIndex="3" />
       <TextField fx:id="fieldPostanskiBroj" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="6">
          <buttons>
             <Button fx:id="btnOk" mnemonicParsing="false" onAction="#clickOk" text="Ok" />
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#clickCancel" text="Cancel" />
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#clickCancel" text="%odustani" />
          </buttons>
       </ButtonBar>
-      <Label text="Znamenitost:" GridPane.rowIndex="4" />
-      <Button fx:id="btnDodajZnamenitost" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dodajZnamenitost" text="Dodaj znamenitost" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+      <Label fx:id="lblZnamenitost" text="%znamenitost" GridPane.rowIndex="4" />
+      <Button fx:id="btnDodajZnamenitost" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dodajZnamenitost" text="%dodajznamenitost" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
       <ListView fx:id="listViewZnamenitosti" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
    <opaqueInsets>

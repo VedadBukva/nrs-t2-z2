@@ -21,13 +21,9 @@ public class Main extends Application {
         GlavnaController ctrl = new GlavnaController();
         loader.setController(ctrl);
         Parent root = loader.load();
-        primaryStage.setTitle(bundle.getString("naslov"));
+        primaryStage.setTitle("Gradovi svijeta");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
-    }
-
-    public void postaviNaziv(String novi) {
-
     }
 
     public static void main(String[] args) {
